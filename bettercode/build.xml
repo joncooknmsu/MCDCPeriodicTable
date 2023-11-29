@@ -1,0 +1,58 @@
+<project name="periodictable" default="junit">
+
+   <!-- JUnit location. CHANGE THIS FOR YOUR SYSTEM -->
+   <property name="junitjar" location="/home/jcook/tools/junit/junit-platform-console-standalone-1.3.1.jar"/>
+   <!-- JaCoCo locations: CHANGE THESE FOR YOUR SYSTEM -->
+   <property name="jacocodir" location="/home/jcook/tools/jacoco-0.8.8/lib"/>
+   <property name="jacococlijar" location="/home/jcook/tools/jacoco-0.8.8/lib/jacococli.jar"/>
+
+   <!-- standard compile task, but turn debugging on for source viewing -->
+   <target name="compile" description="compile the source">
+      <javac srcdir="." includes="*.java" includeantruntime="false" debug="true" classpath="${junitjar}:."/>
+   </target>
+
+   <!-- standard run task - - NOT USED
+   <target name="run" description="run PeriodicTable" depends="compile">
+      <echo message="Run PeriodicTable"/>
+      <java classname="PeriodicTable" fork="true">
+         <arg value="1"/>
+      </java>
+   </target>
+   -->
+
+   <!-- run junit5 test framework -->
+   <target name="junit" depends="compile">
+      <java jar="${junitjar}" classpath="." fork="true">
+         <jvmarg value = "-javaagent:${jacocodir}/jacocoagent.jar=excludes=PeriodicTableTests.class"/>
+         <arg value="--classpath=."/>
+         <arg value="-c"/><arg value="PeriodicTableTests"/>
+      </java>
+   </target>
+
+   <!-- use Jacoco to generate an HTML coverage report -->
+   <target name="report" description="generate jacoco report" 
+           depends="junit">
+      <java jar="${jacococlijar}" classpath="." fork="true">
+         <arg value="report"/>
+         <arg value="jacoco.exec"/>
+         <arg value="--classfiles"/>
+         <arg value="."/>
+         <arg value="--sourcefiles"/>
+         <arg value="."/>
+         <arg value="--html"/>
+         <arg value="html"/>
+      </java>
+   </target>
+
+
+   <!-- remove all generated files; do "ant clean" to start afresh -->
+   <target name="clean">
+      <delete>
+         <fileset dir="." includes="*.class"/>
+         <fileset dir="." includes="jacoco.exec"/>
+      </delete>
+      <delete dir="html"/>
+   </target>
+
+</project>
+

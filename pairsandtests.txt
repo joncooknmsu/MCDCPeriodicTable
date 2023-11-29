@@ -1,0 +1,33 @@
+Code:
+    if ((atomicNumber <= 19 && atomicNumber % 8 == 3) || 
+        (atomicNumber <= 87 && atomicNumber % 8 == 7))
+        return Block.ALKALI_METAL;
+
+Conditions:
+a == (atomicNumber <= 19)        b == (atomicNumber % 8 == 3)
+c == (atomicNumber <= 87)        d == (atomicNumber % 8 == 7)
+
+Pairs Table:                                       atomicNumber
+     a b c d  DEC   a   b   c   d   Test Choices    Test Value
+     ----------------------------------------------------------
+  1  F F F F   F   
+  2  F F F T   F            4            c              95
+  3  F F T F   F                4
+  4  F F T T   T            2   3        c              87
+  5  F T F F   F   13                 
+  6  F T F T   F   14       8        infeasible
+  7  F T T F   F   15           8     a                 83
+  8  F T T T   T            6   7    infeasible
+  9  T F F F   F       13            infeasible
+  10 T F F T   F       14  12        infeasible
+  11 T F T F   F       15      12      b,d               9
+  12 T F T T   T           10  11        d              15
+  13 T T F F   T    5   9             
+  14 T T F T   T    6  10            infeasible
+  15 T T T F   T    7  11             a,b               19
+  16 T T T T   T                     infeasible
+
+Infeasible truth conditions:
+if a==T, c must be T, so 9,10,14 are infeasible
+if b==T, d must be F, so 6,8,14,16 are infeasible
+

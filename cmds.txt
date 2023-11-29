@@ -1,0 +1,5 @@
+javac -cp /home/jcook/tools/junit/junit-platform-console-standalone-1.3.1.jar:. *.java 
+#java -jar /home/jcook/tools/junit/junit-platform-console-standalone-1.3.1.jar -cp . -c PeriodicTableTests
+java -javaagent:/home/jcook/tools/jacoco-0.8.8/lib/jacocoagent.jar -jar /home/jcook/tools/junit/junit-platform-console-standalone-1.9.0.jar -cp . -c PeriodicTableTests
+java -jar /home/jcook/tools/jacoco-0.8.8/lib/jacococli.jar report jacoco.exec --classfiles . --html html --sourcefiles .
+
